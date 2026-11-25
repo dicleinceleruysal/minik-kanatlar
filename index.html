@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gökyüzü Kanatları 3D — Three.js Uçak Oyunu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="game-canvas"></canvas>
+
+    <!-- IN-GAME HUD -->
+    <div id="hud" class="hud hidden">
+      <div class="hud-top">
+        <div class="hud-card hud-left">
+          <div class="lives-row" id="hud-lives" aria-label="Can Hakkı"></div>
+          <div class="hud-meta">
+            <span id="hud-level-badge" class="badge">Seviye 1</span>
+            <span id="hud-plane-name" class="muted-label">Cesur Kırlangıç</span>
+          </div>
+        </div>
+
+        <div class="hud-card hud-progress-box">
+          <div class="progress-header">
+            <span id="hud-level-name">Mavi Ufuklar</span>
+            <span id="hud-distance">0 / 1200 m</span>
+          </div>
+          <div class="progress-track">
+            <div id="hud-progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="hud-card hud-right">
+          <div class="star-counter" title="Bu bölümde toplanan yıldız">
+            <span class="star-icon">⭐</span>
+            <div>
+              <div id="hud-level-stars" class="star-value">0</div>
+              <div class="star-sub">Toplam: <span id="hud-total-stars">0</span></div>
+            </div>
+          </div>
+          <button id="btn-mute" class="icon-btn" title="Sesi Aç/Kapat">🔊</button>
+          <button id="btn-pause" class="icon-btn" title="Duraklat (P / Esc)">⏸</button>
+        </div>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="hud-card speed-box">
+          <div class="speed-row">
+            <span class="speed-num" id="hud-speed">350</span>
+            <span class="speed-unit">km/s</span>
+          </div>
+          <div class="boost-row">
+            <span class="boost-label">TURBO</span>
+            <div class="boost-track">
+              <div id="hud-boost-fill" class="boost-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-card controls-hint">
+          <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> veya <kbd>↑↓←→</kbd> Yön</span>
+          <span><kbd>SPACE</kbd> Turbo</span>
+          <span><kbd>P</kbd> Duraklat</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN MENU OVERLAY -->
+    <div id="menu-screen" class="overlay">
+      <div class="menu-container">
+        <header class="menu-header">
+          <div>
+            <div class="eyebrow">3D GÖKYÜZÜ MACERASI</div>
+            <h1 class="game-title">GÖKYÜZÜ KANATLARI</h1>
+            <p class="game-subtitle">
+              Yıldızları topla, engelleri aş, soruları doğru bilip canını koru ve 5 seviyeli uçak filonu yükselt!
+            </p>
+          </div>
+          <div class="wallet-pill">
+            <span class="star-icon">⭐</span>
+            <div>
+              <div class="wallet-label">BİRİKMİŞ YILDIZ</div>
+              <div id="menu-total-stars" class="wallet-value">0</div>
+            </div>
+          </div>
+        </header>
+
+        <section class="levels-section">
+          <div class="section-header">
+            <h2>Bölümler (5 Seviye)</h2>
+            <span id="menu-active-plane-pill" class="active-plane-pill">✈️ Seviye 1: Cesur Kırlangıç</span>
+          </div>
+          <div id="level-grid" class="level-grid"></div>
+        </section>
+
+        <footer class="menu-actions">
+          <button id="btn-start-flight" class="btn btn-primary btn-lg">🚀 Uçuşa Başla</button>
+          <button id="btn-open-hangar" class="btn btn-secondary btn-lg">🛠️ Hangar &amp; Uçak Yükselt</button>
+          <button id="btn-menu-mute" class="btn btn-ghost">🔊 Ses Açık</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- HANGAR / UPGRADE OVERLAY -->
+    <div id="hangar-screen" class="overlay hangar-overlay hidden">
+      <div class="hangar-panel">
+        <div class="hangar-header">
+          <div>
+            <div class="eyebrow">FİLO YÖNETİMİ</div>
+            <h2>UÇAK HANGARI</h2>
+          </div>
+          <div class="wallet-pill compact">
+            <span class="star-icon">⭐</span>
+            <span id="hangar-total-stars" class="wallet-value">0</span>
+          </div>
+        </div>
+
+        <p class="hangar-note">
+          Uçak kilitleri seviye seviye açılır. Bir uçağın kilidini açtığında bir sonraki seviye açılabilir hale gelir.
+        </p>
+
+        <div id="plane-list" class="plane-list"></div>
+
+        <div id="plane-detail-card" class="plane-detail-card">
+          <div class="detail-top">
+            <div>
+              <h3 id="detail-name">Cesur Kırlangıç</h3>
+              <div id="detail-subtitle" class="detail-sub">Seviye 1 • Pervaneli Eğitim Uçağı</div>
+            </div>
+            <span id="detail-status-badge" class="badge">Seçili</span>
+          </div>
+          <p id="detail-desc" class="detail-desc"></p>
+          <div class="stats-grid">
+            <div class="stat-row">
+              <span>Hız</span>
+              <div class="stat-bar"><div id="stat-speed" class="stat-fill"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Manevra</span>
+              <div class="stat-bar"><div id="stat-maneuver" class="stat-fill"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Yıldız Çekimi</span>
+              <div class="stat-bar"><div id="stat-magnet" class="stat-fill"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Turbo Gücü</span>
+              <div class="stat-bar"><div id="stat-power" class="stat-fill"></div></div>
+            </div>
+          </div>
+          <div class="detail-actions">
+            <button id="btn-plane-action" class="btn btn-primary btn-full">Kullanılıyor</button>
+          </div>
+        </div>
+
+        <div class="hangar-footer">
+          <button id="btn-close-hangar" class="btn btn-ghost">← Ana Menüye Dön</button>
+          <button id="btn-hangar-fly" class="btn btn-primary">🚀 Bu Uçakla Uç</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OBSTACLE QUIZ MODAL -->
+    <div id="quiz-modal" class="overlay modal-backdrop hidden">
+      <div class="modal-card quiz-card">
+        <div class="quiz-top">
+          <span class="danger-badge">⚠️ ENGELE TAKILDIN!</span>
+          <span id="quiz-category" class="category-badge">Havacılık</span>
+        </div>
+        <p class="quiz-hint">Doğru bilirsen canın gitmeyecek, bilemezsen 1 can kaybedeceksin!</p>
+
+        <div class="quiz-timer-track">
+          <div id="quiz-timer-fill" class="quiz-timer-fill"></div>
+        </div>
+
+        <h3 id="quiz-question" class="quiz-question">Soru yükleniyor...</h3>
+        <div id="quiz-options" class="quiz-options"></div>
+        <div id="quiz-feedback" class="quiz-feedback hidden"></div>
+      </div>
+    </div>
+
+    <!-- PAUSE MODAL -->
+    <div id="pause-modal" class="overlay modal-backdrop hidden">
+      <div class="modal-card compact-modal">
+        <h2>Oyun Duraklatıldı</h2>
+        <p class="muted-text">Gökyüzü seni bekliyor, istediğin zaman devam edebilirsin.</p>
+        <div class="modal-buttons">
+          <button id="btn-resume" class="btn btn-primary">▶ Devam Et</button>
+          <button id="btn-pause-restart" class="btn btn-secondary">🔄 Bölümü Yeniden Başlat</button>
+          <button id="btn-pause-menu" class="btn btn-ghost">🏠 Ana Menü</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEVEL COMPLETE MODAL -->
+    <div id="complete-modal" class="overlay modal-backdrop hidden">
+      <div class="modal-card compact-modal">
+        <div class="celebration-icon">🏆</div>
+        <h2 id="complete-title">Seviye Tamamlandı!</h2>
+        <p id="complete-subtitle" class="muted-text"></p>
+
+        <div class="reward-summary">
+          <div class="reward-row">
+            <span>Toplanan Yıldız</span>
+            <strong id="complete-collected">+0 ⭐</strong>
+          </div>
+          <div class="reward-row">
+            <span>Bölüm Tamamlama Bonusu</span>
+            <strong id="complete-bonus">+0 ⭐</strong>
+          </div>
+          <div class="reward-row total">
+            <span>Toplam Birikmiş Yıldız</span>
+            <strong id="complete-total">0 ⭐</strong>
+          </div>
+        </div>
+
+        <div id="complete-unlock-hint" class="unlock-banner hidden"></div>
+
+        <div class="modal-buttons">
+          <button id="btn-next-level" class="btn btn-primary">➡ Sonraki Seviye</button>
+          <button id="btn-complete-hangar" class="btn btn-secondary">🛠️ Hangar &amp; Uçak Yükselt</button>
+          <button id="btn-complete-menu" class="btn btn-ghost">🏠 Ana Menü</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME OVER MODAL -->
+    <div id="gameover-modal" class="overlay modal-backdrop hidden">
+      <div class="modal-card compact-modal">
+        <div class="celebration-icon">💥</div>
+        <h2>Can Hakkın Tükendi!</h2>
+        <p class="muted-text">
+          Endişelenme, bu uçuşta topladığın yıldızlar kasana eklendi. Uçağını güçlendirip tekrar deneyebilirsin!
+        </p>
+
+        <div class="reward-summary">
+          <div class="reward-row">
+            <span>Bu Uçuşta Kazanılan</span>
+            <strong id="gameover-collected">+0 ⭐</strong>
+          </div>
+          <div class="reward-row total">
+            <span>Toplam Birikmiş Yıldız</span>
+            <strong id="gameover-total">0 ⭐</strong>
+          </div>
+        </div>
+
+        <div class="modal-buttons">
+          <button id="btn-retry" class="btn btn-primary">🔄 Tekrar Dene</button>
+          <button id="btn-gameover-hangar" class="btn btn-secondary">🛠️ Hangar &amp; Yükselt</button>
+          <button id="btn-gameover-menu" class="btn btn-ghost">🏠 Ana Menü</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
