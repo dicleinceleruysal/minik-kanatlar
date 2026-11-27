@@ -1,272 +1,169 @@
 export const QUESTIONS = [
-  {
-    category: 'Havacılık',
-    question: 'Uçakların havada kalmasını sağlayan yukarı yönlü kuvvete ne ad verilir?',
-    options: ['Kaldırma (Lift)', 'Sürükleme (Drag)', 'Yerçekimi', 'Atalet'],
-    correct: 0
-  },
-  {
-    category: 'Havacılık',
-    question: 'Uçakların sağa ve sola yatmasını (roll) sağlayan kanat üzerindeki kontrol yüzeyi hangisidir?',
-    options: ['Dümen (Rudder)', 'Kanatçık (Aileron)', 'İrtifa Dümeni (Elevator)', 'İniş Takımı'],
-    correct: 1
-  },
-  {
-    category: 'Havacılık',
-    question: 'Ses hızını aşan uçuşlara ne ad verilir?',
-    options: ['Subsonik', 'Süpersonik', 'Statik', 'Hidrolik'],
-    correct: 1
-  },
-  {
-    category: 'Havacılık',
-    question: 'Pilotların uçuş verilerini ve aletlerini kontrol ettiği bölüme ne denir?',
-    options: ['Kabin', 'Kokpit', 'Hangar', 'Kargo'],
-    correct: 1
-  },
-  {
-    category: 'Havacılık',
-    question: 'Uçakların park edildiği ve bakımının yapıldığı büyük kapalı alana ne ad verilir?',
-    options: ['Apron', 'Pist', 'Hangar', 'Kule'],
-    correct: 2
-  },
-  {
-    category: 'Havacılık',
-    question: 'Yüksek irtifada uçakların arkasında bıraktığı beyaz izler temel olarak neden oluşur?',
-    options: ['Boya püskürtülmesinden', 'Su buharının yoğuşup donmasından', 'Bulut parçalanmasından', 'Güneş ışığının kırılmasından'],
-    correct: 1
-  },
-  {
-    category: 'Havacılık',
-    question: 'Uçuş hızını ölçmekte kullanılan ve 1 deniz mili/saat anlamına gelen birim hangisidir?',
-    options: ['Knot', 'Watt', 'Pascal', 'Volt'],
-    correct: 0
-  },
-  {
-    category: 'Havacılık',
-    question: 'İlk motorlu ve kontrollü uçuşu 1903 yılında gerçekleştiren kardeşler kimlerdir?',
-    options: ['Montgolfier Kardeşler', 'Wright Kardeşler', 'Lumière Kardeşler', 'Grimm Kardeşler'],
-    correct: 1
-  },
-  {
-    category: 'Bilim',
-    question: 'Dünya atmosferinin hava olaylarının (yağmur, bulut, rüzgar) gerçekleştiği en alt katmanı hangisidir?',
-    options: ['Stratosfer', 'Mezosfer', 'Troposfer', 'Termosfer'],
-    correct: 2
-  },
-  {
-    category: 'Bilim',
-    question: 'Gökyüzünün gündüzleri mavi görünmesinin temel fiziksel nedeni nedir?',
-    options: ['Denizlerin yansıması', 'Rayleigh saçılması', 'Ozonun mavi boyası', 'Yerçekimi dalgaları'],
-    correct: 1
-  },
-  {
-    category: 'Bilim',
-    question: 'Dünya atmosferinde hacimce en yüksek oranda bulunan gaz hangisidir?',
-    options: ['Oksijen', 'Karbondioksit', 'Azot (Nitrojen)', 'Argon'],
-    correct: 2
-  },
-  {
-    category: 'Bilim',
-    question: 'Suyun deniz seviyesindeki kaynama noktası kaç santigrat derecedir?',
-    options: ['80 °C', '90 °C', '100 °C', '120 °C'],
-    correct: 2
-  },
-  {
-    category: 'Bilim',
-    question: 'Işığın boşluktaki hızı yaklaşık olarak saniyede kaç kilometredir?',
-    options: ['30.000 km', '150.000 km', '300.000 km', '1.000.000 km'],
-    correct: 2
-  },
-  {
-    category: 'Bilim',
-    question: 'Ses dalgaları aşağıdaki ortamlardan hangisinde yayılamaz?',
-    options: ['Hava', 'Su', 'Çelik', 'Uzay boşluğu'],
-    correct: 3
-  },
-  {
-    category: 'Bilim',
-    question: 'Ozon tabakası atmosferin hangi katmanında yoğunlaşmıştır?',
-    options: ['Troposfer', 'Stratosfer', 'Ekzosfer', 'Litosfer'],
-    correct: 1
-  },
-  {
-    category: 'Bilim',
-    question: 'İnsan vücudundaki en büyük organ hangisidir?',
-    options: ['Karaciğer', 'Akciğer', 'Deri', 'Beyin'],
-    correct: 2
-  },
-  {
-    category: 'Uzay',
-    question: 'Güneş Sistemindeki en büyük gezegen hangisidir?',
-    options: ['Satürn', 'Jüpiter', 'Neptün', 'Mars'],
-    correct: 1
-  },
-  {
-    category: 'Uzay',
-    question: 'Kızıl Gezegen olarak bilinen gezegen hangisidir?',
-    options: ['Venüs', 'Merkür', 'Mars', 'Uranüs'],
-    correct: 2
-  },
-  {
-    category: 'Uzay',
-    question: 'Dünya’ya en yakın yıldız hangisidir?',
-    options: ['Sirius', 'Proxima Centauri', 'Güneş', 'Kutup Yıldızı'],
-    correct: 2
-  },
-  {
-    category: 'Uzay',
-    question: 'Güneş’ten gelen ışığın Dünya’ya ulaşması yaklaşık ne kadar sürer?',
-    options: ['8 saniye', '8 dakika', '8 saat', '1 gün'],
-    correct: 1
-  },
-  {
-    category: 'Uzay',
-    question: 'Halkalarıyla ünlü gaz devi gezegen hangisidir?',
-    options: ['Mars', 'Venüs', 'Satürn', 'Merkür'],
-    correct: 2
-  },
-  {
-    category: 'Uzay',
-    question: 'Ay, Dünya’nın etrafındaki bir turunu yaklaşık kaç günde tamamlar?',
-    options: ['7 gün', '14 gün', '27-29 gün', '365 gün'],
-    correct: 2
-  },
-  {
-    category: 'Uzay',
-    question: 'Samanyolu hangi gök cismi türüne örnektir?',
-    options: ['Gezegen', 'Galaksi (Gökada)', 'Asteroit', 'Kuyruklu Yıldız'],
-    correct: 1
-  },
-  {
-    category: 'Coğrafya',
-    question: 'Dünyanın en yüksek dağı olan Everest hangi sıradağlardadır?',
-    options: ['Alpler', 'And Dağları', 'Himalayalar', 'Kayalık Dağları'],
-    correct: 2
-  },
-  {
-    category: 'Coğrafya',
-    question: 'Dünyanın yüzölçümü bakımından en büyük okyanusu hangisidir?',
-    options: ['Atlas Okyanusu', 'Hint Okyanusu', 'Büyük (Pasifik) Okyanus', 'Arktik Okyanusu'],
-    correct: 2
-  },
-  {
-    category: 'Coğrafya',
-    question: 'Türkiye’nin en yüksek dağı hangisidir?',
-    options: ['Erciyes Dağı', 'Uludağ', 'Ağrı Dağı', 'Kaçkar Dağı'],
-    correct: 2
-  },
-  {
-    category: 'Coğrafya',
-    question: 'Hangi kıtada kalıcı insan yerleşimi yoktur ve tamamına yakını buzullarla kaplıdır?',
-    options: ['Avustralya', 'Antarktika', 'Güney Amerika', 'Avrupa'],
-    correct: 1
-  },
-  {
-    category: 'Coğrafya',
-    question: 'Ekvator çizgisi Dünya’yı hangi iki yarım küreye ayırır?',
-    options: ['Doğu ve Batı', 'Kuzey ve Güney', 'İç ve Dış', 'Kara ve Deniz'],
-    correct: 1
-  },
-  {
-    category: 'Coğrafya',
-    question: 'Pusulanın iğnesi normal şartlarda hangi yönü gösterir?',
-    options: ['Güney', 'Doğu', 'Batı', 'Kuzey'],
-    correct: 3
-  },
-  {
-    category: 'Coğrafya',
-    question: 'Dünyanın en uzun nehirlerinden biri olan Nil hangi kıtadadır?',
-    options: ['Asya', 'Afrika', 'Avrupa', 'Güney Amerika'],
-    correct: 1
-  },
-  {
-    category: 'Matematik',
-    question: 'Bir üçgenin iç açılarının toplamı kaç derecedir?',
-    options: ['90°', '180°', '270°', '360°'],
-    correct: 1
-  },
-  {
-    category: 'Matematik',
-    question: '12 × 8 işleminin sonucu kaçtır?',
-    options: ['84', '88', '96', '104'],
-    correct: 2
-  },
-  {
-    category: 'Matematik',
-    question: 'En küçük asal sayı hangisidir?',
-    options: ['0', '1', '2', '3'],
-    correct: 2
-  },
-  {
-    category: 'Matematik',
-    question: 'Bir kenarı 7 cm olan karenin çevresi kaç cm’dir?',
-    options: ['14 cm', '21 cm', '28 cm', '49 cm'],
-    correct: 2
-  },
-  {
-    category: 'Matematik',
-    question: '144 sayısının karekökü kaçtır?',
-    options: ['11', '12', '13', '14'],
-    correct: 1
-  },
-  {
-    category: 'Matematik',
-    question: 'Saatte 120 km hızla giden bir araç 2,5 saatte kaç km yol alır?',
-    options: ['240 km', '280 km', '300 km', '320 km'],
-    correct: 2
-  },
-  {
-    category: 'Genel Kültür',
-    question: 'Mona Lisa tablosunu hangi ünlü sanatçı yapmıştır?',
-    options: ['Pablo Picasso', 'Vincent van Gogh', 'Leonardo da Vinci', 'Michelangelo'],
-    correct: 2
-  },
-  {
-    category: 'Genel Kültür',
-    question: 'Bir yılda toplam kaç hafta vardır?',
-    options: ['48', '50', '52', '56'],
-    correct: 2
-  },
-  {
-    category: 'Genel Kültür',
-    question: 'Olimpiyat bayrağında kaç adet iç içe geçmiş halka bulunur?',
-    options: ['4', '5', '6', '7'],
-    correct: 1
-  },
-  {
-    category: 'Genel Kültür',
-    question: 'Müzikte bir oktavda kaç temel nota (do, re, mi...) bulunur?',
-    options: ['5', '6', '7', '9'],
-    correct: 2
-  },
-  {
-    category: 'Genel Kültür',
-    question: 'Satranç tahtasında toplam kaç kare vardır?',
-    options: ['36', '48', '64', '81'],
-    correct: 2
-  },
-  {
-    category: 'Genel Kültür',
-    question: 'Elektrik ampulünü pratik kullanıma uygun hale getirip yaygınlaştıran mucit kimdir?',
-    options: ['Thomas Edison', 'Isaac Newton', 'Galileo Galilei', 'Louis Pasteur'],
-    correct: 0
-  },
-  {
-    category: 'Bilim',
-    question: 'Altının periyodik tablodaki kimyasal sembolü nedir?',
-    options: ['Ag', 'Au', 'Fe', 'Al'],
-    correct: 1
-  },
-  {
-    category: 'Havacılık',
-    question: 'Sıcak hava balonlarının yükselmesini sağlayan temel prensip nedir?',
-    options: ['Isınan havanın yoğunluğunun azalıp yükselmesi', 'Kanat çırpması', 'Manyetik itme', 'Rüzgar türbini'],
-    correct: 0
-  },
-  {
-    category: 'Uzay',
-    question: 'Güneş Sisteminde Güneş’e en yakın gezegen hangisidir?',
-    options: ['Venüs', 'Merkür', 'Mars', 'Dünya'],
-    correct: 1
-  }
+  // ==================== GENEL KÜLTÜR (1–40) ====================
+  { category: 'Genel Kültür', question: "Türkiye'nin başkenti neresidir?", options: ['Ankara', 'İzmir', 'İstanbul', 'Bursa'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Bir yılda kaç ay vardır?', options: ['13', '12', '11', '10'], correct: 1 },
+  { category: 'Genel Kültür', question: "İstiklâl Marşı'nın şairi kimdir?", options: ['Orhan Veli', 'Yahya Kemal', 'Mehmet Âkif Ersoy', 'Namık Kemal'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Olimpiyat bayrağında kaç halka vardır?', options: ['6', '7', '4', '5'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Bir haftada kaç gün vardır?', options: ['7', '6', '5', '8'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Cumhuriyet Bayramı hangi tarihtedir?', options: ['23 Nisan', '29 Ekim', '19 Mayıs', '30 Ağustos'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Hangi spor dalında potaya top atılır?', options: ['Tenis', 'Yüzme', 'Basketbol', 'Futbol'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Hangi araç raylar üzerinde ilerler?', options: ['Uçak', 'Gemi', 'Otobüs', 'Tren'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Hangi müzik aleti tuşludur?', options: ['Piyano', 'Davul', 'Bağlama', 'Keman'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Kitap ödünç almak için nereye gidilir?', options: ['Eczane', 'Kütüphane', 'Fırın', 'Postane'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Hangi mevsimde yapraklar genellikle sararır?', options: ['İlkbahar', 'Yaz', 'Sonbahar', 'Kış'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Hangi meslek diş sağlığıyla ilgilenir?', options: ['Terzi', 'Pilot', 'Mimar', 'Diş hekimi'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Hangi spor dalında raket kullanılır?', options: ['Tenis', 'Güreş', 'Koşu', 'Yüzme'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Hangi taşıt denizde yol alır?', options: ['Bisiklet', 'Vapur', 'Helikopter', 'Tramvay'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Hangi yiyecek sütten yapılır?', options: ['Makarna', 'Reçel', 'Peynir', 'Ekmek'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Hangi araç yön bulmak için kullanılır?', options: ['Cetvel', 'Termometre', 'Terazi', 'Pusula'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Hangi şehir boğazıyla ünlüdür?', options: ['İstanbul', 'Kayseri', 'Sivas', 'Konya'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Hangi müzik aleti yayla çalınır?', options: ['Piyano', 'Keman', 'Flüt', 'Davul'], correct: 1 },
+  { category: 'Genel Kültür', question: "Dünya'nın en büyük okyanusu hangisidir?", options: ['Arktik', 'Hint', 'Pasifik', 'Atlas'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Eyfel Kulesi hangi ülkededir?', options: ['Almanya', 'İspanya', 'İtalya', 'Fransa'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Piramitleriyle ünlü ülke hangisidir?', options: ['Mısır', 'Japonya', 'Norveç', 'Kanada'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Hangi spor dalında file üzerinden topa elle vurulur?', options: ['Bisiklet', 'Voleybol', 'Golf', 'Futbol'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Hangi ülke çizme biçimindeki yarımadasıyla tanınır?', options: ['İsveç', 'Portekiz', 'İtalya', 'Polonya'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Hangi sanat dalında heykel yapılır?', options: ['Dans', 'Müzik', 'Edebiyat', 'Heykelcilik'], correct: 3 },
+  { category: 'Genel Kültür', question: "Geleneksel gölge oyununda Karagöz'ün arkadaşı kimdir?", options: ['Hacivat', 'Nasreddin Hoca', 'Keloğlan', 'Dede Korkut'], correct: 0 },
+  { category: 'Genel Kültür', question: "Hangi ülkenin başkenti Londra'dır?", options: ['Fransa', 'Birleşik Krallık', 'İrlanda', 'Belçika'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Hangi şehir Mevlânâ ile özdeşleşmiştir?', options: ['Edirne', 'Bolu', 'Konya', 'Rize'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Hangi spor dalında minder üzerinde mücadele edilir?', options: ['Golf', 'Yelken', 'Kayak', 'Güreş'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Pamukkale travertenleri hangi ildedir?', options: ['Denizli', 'Aydın', 'Antalya', 'Muğla'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Dünyanın en yüksek dağı hangisidir?', options: ['Kilimanjaro', 'Everest', 'Ağrı', 'Alpler'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Hangi ülke laleleri ve yel değirmenleriyle tanınır?', options: ['İsviçre', 'Finlandiya', 'Hollanda', 'Yunanistan'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Mona Lisa tablosunu kim yapmıştır?', options: ['Picasso', 'Monet', 'Van Gogh', 'Leonardo da Vinci'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Hangi eser bir masaldır?', options: ['Külkedisi', 'İstiklâl Marşı', 'Gençliğe Hitabe', 'Nutuk'], correct: 0 },
+  { category: 'Genel Kültür', question: "Hangi ülkenin başkenti Tokyo'dur?", options: ['Tayland', 'Japonya', 'Güney Kore', 'Çin'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Hangi kıtada penguenlerin doğal yaşam alanları bulunur?', options: ['Kuzey Amerika', 'Avrupa', 'Antarktika', 'Asya'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Hangi müzik aleti üflemelidir?', options: ['Bağlama', 'Keman', 'Davul', 'Ney'], correct: 3 },
+  { category: 'Genel Kültür', question: 'Hangi şehir çini sanatıyla ünlüdür?', options: ['Kütahya', 'Bingöl', 'Ordu', 'Kars'], correct: 0 },
+  { category: 'Genel Kültür', question: 'Hangi spor dalında ok ve yay kullanılır?', options: ['Boks', 'Okçuluk', 'Eskrim', 'Hentbol'], correct: 1 },
+  { category: 'Genel Kültür', question: 'Tac Mahal hangi ülkededir?', options: ['İran', 'Mısır', 'Hindistan', 'Çin'], correct: 2 },
+  { category: 'Genel Kültür', question: 'Dünyanın en büyük kıtası hangisidir?', options: ['Okyanusya', 'Afrika', 'Avrupa', 'Asya'], correct: 3 },
+
+  // ==================== TÜRKÇE (41–80) ====================
+  { category: 'Türkçe', question: 'Hangisi bir duyguyu ifade eder?', options: ['Sevinç', 'Masa', 'Kitap', 'Kalem'], correct: 0 },
+  { category: 'Türkçe', question: 'Siyah kelimesinin eş anlamlısı nedir?', options: ['Koyu', 'Kara', 'Beyaz', 'Açık'], correct: 1 },
+  { category: 'Türkçe', question: 'Cesur kelimesinin zıt anlamlısı nedir?', options: ['Güçlü', 'Hızlı', 'Korkak', 'Mutlu'], correct: 2 },
+  { category: 'Türkçe', question: 'Türk alfabesinde kaç harf vardır?', options: ['27', '28', '26', '29'], correct: 3 },
+  { category: 'Türkçe', question: 'Hangisi özel isimdir?', options: ['Ankara', 'Çocuk', 'Ağaç', 'Okul'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisinin sonunda soru işareti olmalıdır?', options: ['Eve geldim', 'Nereye gidiyorsun', 'Hava güzel', 'Kitap okudum'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi eylem bildirir?', options: ['Yeşil', 'Bahçe', 'Koşmak', 'Kalem'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisi doğru yazılmıştır?', options: ['Herşey', 'Hiç bir', 'Birşey', 'Her şey'], correct: 3 },
+  { category: 'Türkçe', question: 'Hangisi çoğul bir sözcüktür?', options: ['Çiçekler', 'Gül', 'Bahçe', 'Çiçek'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangi sözcük bir renk bildirir?', options: ['Yumuşak', 'Mor', 'Sıcak', 'Uzun'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi bir hayvan adıdır?', options: ['Çınar', 'Kavak', 'Tavşan', 'Papatya'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisi okul kelimesinin eş anlamlısıdır?', options: ['Öğretmen', 'Ders', 'Sınıf', 'Mektep'], correct: 3 },
+  { category: 'Türkçe', question: 'Uzak kelimesinin zıt anlamlısı nedir?', options: ['Yakın', 'Geniş', 'Dar', 'Yüksek'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisi üç hecelidir?', options: ['Kuş', 'Kelebek', 'Elma', 'Balık'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi bir cümledir?', options: ['Mavi kalem', 'Büyük ev', 'Ali kitap okudu.', 'Kırmızı elma'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisi ünlem cümlesidir?', options: ['Okula gittim.', 'Saat kaç?', 'Kitap aldım.', 'Eyvah, geç kaldım!'], correct: 3 },
+  { category: 'Türkçe', question: 'Misafir kelimesinin eş anlamlısı nedir?', options: ['Konuk', 'Arkadaş', 'Yolcu', 'Komşu'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisinde yazım yanlışı vardır?', options: ['Doğru', 'Yanlız', 'Güzel', 'Yalnız'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi bir atasözüdür?', options: ['Kulak vermek', 'Etekleri zil çalmak', 'Damlaya damlaya göl olur.', 'Göz atmak'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisi bir deyimdir?', options: ['Sakla samanı, gelir zamanı.', 'Ak akçe kara gün içindir.', 'Ağaç yaşken eğilir.', 'Gözden düşmek'], correct: 3 },
+  { category: 'Türkçe', question: 'Hangisinde benzetme vardır?', options: ['Aslan gibi cesurdu.', 'Eve gitti.', 'Suyu içti.', 'Kapıyı açtı.'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisi soyut anlamlıdır?', options: ['Masa', 'Özlem', 'Taş', 'Kedi'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi somut anlamlıdır?', options: ['Umut', 'Hayal', 'Köprü', 'Sevgi'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisi bir soru sözcüğüdür?', options: ['Fakat', 'Ve', 'İle', 'Neden'], correct: 3 },
+  { category: 'Türkçe', question: 'Hangi sözcükte küçültme anlamı vardır?', options: ['Evceğiz', 'Evler', 'Evde', 'Evimiz'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisi neden-sonuç bildirir?', options: ['Kitap aldım.', 'Yağmur yağdığı için ıslandık.', 'Eve gittik.', 'Yarın gelecek.'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi karşılaştırma bildirir?', options: ['Ece geldi.', 'Ali koştu.', "Ali, Ece'den daha hızlıdır.", 'Hava soğudu.'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisinde kişileştirme vardır?', options: ['Rüzgâr sert esti.', 'Kuş uçtu.', 'Yağmur yağdı.', 'Rüzgâr şarkı söylüyordu.'], correct: 3 },
+  { category: 'Türkçe', question: 'Hangisi bir bağlaçtır?', options: ['Fakat', 'Kalem', 'Koşmak', 'Mavi'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisi bir zamirdir?', options: ['Yavaş', 'Onlar', 'Güzel', 'Çiçek'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisinde mecaz anlam vardır?', options: ['Cam kırıldı.', 'Bardağı kırdı.', 'Sözleri beni kırdı.', 'Dal kırıldı.'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisi bir terim anlamlı sözcüktür?', options: ['Çanta', 'Ev', 'Sokak', 'Hipotenüs'], correct: 3 },
+  { category: 'Türkçe', question: 'Hangisi eş sesli bir sözcüktür?', options: ['Yüz', 'Kalem', 'Pencere', 'Bardak'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisi yapım eki almıştır?', options: ['Kitapta', 'Kitapçı', 'Kitaplar', 'Kitabım'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi birleşik sözcüktür?', options: ['Bahçede', 'Çiçekler', 'Hanımeli', 'Ağaçlık'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisinde koşul anlamı vardır?', options: ['Çalıştım ve başardım.', 'Başarı güzeldir.', 'Bugün çalıştım.', 'Çalışırsan başarırsın.'], correct: 3 },
+  { category: 'Türkçe', question: 'Hangisi nesnel bir yargıdır?', options: ["Türkiye'nin başkenti Ankara'dır.", 'Bu kitap çok eğlenceli.', 'En güzel renk mavidir.', 'Kış en güzel mevsimdir.'], correct: 0 },
+  { category: 'Türkçe', question: 'Hangisi öznel bir yargıdır?', options: ['Türk alfabesi 29 harftir.', 'Bu film çok güzeldir.', 'Dünya bir gezegendir.', 'Bir yıl on iki aydır.'], correct: 1 },
+  { category: 'Türkçe', question: 'Hangisi doğru yazılmıştır?', options: ['Bir kaç', 'Hiç bir', 'Birçok', 'Bir çok'], correct: 2 },
+  { category: 'Türkçe', question: 'Hangisinde amaç-sonuç ilişkisi vardır?', options: ['Yağmur yağdığı için ıslandı.', 'Dün eve geldi.', 'Çok yoruldu.', 'Kitap almak için çarşıya gitti.'], correct: 3 },
+
+  // ==================== FEN BİLİMLERİ (81–120) ====================
+  { category: 'Fen Bilimleri', question: "Dünya'nın doğal uydusu hangisidir?", options: ['Ay', 'Güneş', 'Mars', 'Venüs'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Hangi organ kan pompalar?', options: ['Beyin', 'Kalp', 'Mide', 'Akciğer'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Suyun katı hâline ne denir?', options: ['Sis', 'Buhar', 'Buz', 'Yağmur'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Güneş nedir?', options: ['Uydu', 'Asteroit', 'Gezegen', 'Yıldız'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi madde mıknatıs tarafından çekilir?', options: ['Demir', 'Tahta', 'Plastik', 'Cam'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Kızıl Gezegen hangisidir?', options: ['Merkür', 'Mars', 'Satürn', 'Dünya'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Hangi ortamda ses yayılamaz?', options: ['Hava', 'Tahta', 'Boşluk', 'Su'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi hayvan memelidir?', options: ['Ahtapot', 'Alabalık', 'Hamsi', 'Yunus'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi organla görürüz?', options: ['Göz', 'Burun', 'Kulak', 'Dil'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Hangi organla işitiriz?', options: ['Göz', 'Kulak', 'Dil', 'Burun'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Hangi hayvan yumurtlayarak çoğalır?', options: ['Köpek', 'İnek', 'Tavuk', 'Kedi'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi canlı kendi besinini üretebilir?', options: ['Kedi', 'Köpek', 'Tavuk', 'Yeşil bitki'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Bitkinin topraktan su alan bölümü hangisidir?', options: ['Kök', 'Çiçek', 'Yaprak', 'Meyve'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Buz ısındığında hangi olay gerçekleşir?', options: ['Donma', 'Erime', 'Kırağılaşma', 'Yoğuşma'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Hangi madde sıvıdır?', options: ['Tahta', 'Demir', 'Zeytinyağı', 'Taş'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi kaynak doğal ışık kaynağıdır?', options: ['El feneri', 'Ampul', 'Mum', 'Güneş'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi hayvan omurgasızdır?', options: ['Solucan', 'Kuş', 'Kedi', 'Balık'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Hangi duyu organımız kokuyu algılar?', options: ['Kulak', 'Burun', 'Göz', 'Deri'], correct: 1 },
+  { category: 'Fen Bilimleri', question: "Dünya'nın kendi ekseninde dönmesi neyi oluşturur?", options: ['Ay tutulması', 'Mevsimler', 'Gece ve gündüz', 'Yıl'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi gezegen halkalarıyla tanınır?', options: ['Merkür', 'Venüs', 'Mars', 'Satürn'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi organ solunumda görev alır?', options: ['Akciğer', 'Böbrek', 'Mide', 'Kalp'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Sıvı suyun gaz hâline geçmesine ne denir?', options: ['Erime', 'Buharlaşma', 'Yoğuşma', 'Donma'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Hangi enerji kaynağı yenilenebilirdir?', options: ['Doğal gaz', 'Petrol', 'Rüzgâr', 'Kömür'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Bitkiler fotosentezde hangi gazı kullanır?', options: ['Hidrojen', 'Azot', 'Helyum', 'Karbondioksit'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi madde elektriği iyi iletir?', options: ['Bakır', 'Plastik', 'Kauçuk', 'Cam'], correct: 0 },
+  { category: 'Fen Bilimleri', question: "Hangi kuvvet cisimleri Dünya'ya doğru çeker?", options: ['Kaldırma', 'Yer çekimi', 'Manyetik kuvvet', 'Sürtünme'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Hangi alet sıcaklığı ölçer?', options: ['Barometre', 'Pusula', 'Termometre', 'Terazi'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi canlı ayrıştırıcı olabilir?', options: ['Tavşan', 'Kartal', 'Aslan', 'Mantar'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi organ besinlerin sindiriminde görev alır?', options: ['Mide', 'Deri', 'Kulak', 'Göz'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Hangi olay su buharının sıvıya dönüşmesidir?', options: ['Donma', 'Yoğuşma', 'Buharlaşma', 'Erime'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Güneş sisteminin en büyük gezegeni hangisidir?', options: ['Mars', 'Dünya', 'Jüpiter', 'Merkür'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi kan hücresi oksijen taşır?', options: ['Akyuvar', 'Sinir hücresi', 'Trombosit', 'Alyuvar'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi yapı hücreyi çevreler?', options: ['Hücre zarı', 'Çekirdek', 'Mitokondri', 'Ribozom'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Hangi gaz havada en fazla bulunur?', options: ['Karbondioksit', 'Azot', 'Oksijen', 'Helyum'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Hangi alet kuvveti ölçer?', options: ['Kronometre', 'Termometre', 'Dinamometre', 'Pusula'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi olay fiziksel değişimdir?', options: ['Sütün ekşimesi', 'Demirin paslanması', 'Odunun yanması', 'Buzun erimesi'], correct: 3 },
+  { category: 'Fen Bilimleri', question: 'Hangi organ kanı süzerek idrar oluşumunda görev alır?', options: ['Böbrek', 'Kalp', 'Akciğer', 'Mide'], correct: 0 },
+  { category: 'Fen Bilimleri', question: 'Hangi yapıda fotosentez gerçekleşir?', options: ['Çekirdek', 'Kloroplast', 'Hücre zarı', 'Ribozom'], correct: 1 },
+  { category: 'Fen Bilimleri', question: 'Hangi mercek ışığı toplar?', options: ['Düz ayna', 'Opak levha', 'İnce kenarlı mercek', 'Kalın kenarlı mercek'], correct: 2 },
+  { category: 'Fen Bilimleri', question: 'Hangi olayda ışık yön değiştirerek başka ortama geçer?', options: ['Donma', 'Süblimleşme', 'Yanma', 'Kırılma'], correct: 3 },
+
+  // ==================== SOSYAL BİLGİLER VE HAYAT BİLGİSİ (121–160) ====================
+  { category: 'Sosyal Bilgiler', question: 'Güneş hangi yönden doğar?', options: ['Doğu', 'Güney', 'Kuzey', 'Batı'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Türkiye Cumhuriyeti hangi yıl kurulmuştur?', options: ['1921', '1923', '1920', '1919'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Trafik ışıklarında dur anlamına gelen renk hangisidir?', options: ['Beyaz', 'Yeşil', 'Kırmızı', 'Mavi'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: 'Anıtkabir hangi şehrimizdedir?', options: ['Samsun', 'İstanbul', 'İzmir', 'Ankara'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: "Türkiye'nin para birimi hangisidir?", options: ['Türk lirası', 'Euro', 'Dolar', 'Sterlin'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi doğal afettir?', options: ['Elektrik kesintisi', 'Deprem', 'Su kesintisi', 'Trafik'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi çevreyi korumaya yardımcı olur?', options: ['Çöp atmak', 'Ağaçlara zarar vermek', 'Geri dönüşüm', 'Su israfı'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: "Türkiye'de acil çağrı numarası kaçtır?", options: ['186', '155', '110', '112'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: 'Yaya geçidinde ne yapılmalıdır?', options: ['Trafik kontrol edilerek geçilmeli', 'Koşarak yola çıkılmalı', 'Yolda beklenmeli', 'Telefonla oynanmalı'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi sağlıklı bir alışkanlıktır?', options: ['Öğün atlamak', 'Elleri yıkamak', 'Uykusuz kalmak', 'Diş fırçalamamak'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Okulda bir arkadaşımız konuşurken ne yapmalıyız?', options: ['Bağırmalıyız', 'Alay etmeliyiz', 'Dinlemeliyiz', 'Sözünü kesmeliyiz'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi milli bayramdır?', options: ['Dünya Su Günü', 'Anneler Günü', 'Babalar Günü', '23 Nisan'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: "Türkiye'nin bayrağında hangi şekiller vardır?", options: ['Ay ve yıldız', 'Güneş ve bulut', 'Çiçek ve yaprak', 'Kare ve üçgen'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi kurum yangın söndürür?', options: ['Postane', 'İtfaiye', 'Belediye kütüphanesi', 'Kütüphane'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Deprem sırasında sınıfta hangi davranış uygundur?', options: ['Pencereden atlamak', 'Asansöre binmek', 'Çök-kapan-tutun', 'Merdivene koşmak'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi kişisel bakım aracıdır?', options: ['Defter', 'Silgi', 'Cetvel', 'Diş fırçası'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi davranış tasarruf sağlar?', options: ['Gereksiz ışıkları kapatmak', 'Boş odada ışık yakmak', 'Musluğu açık bırakmak', 'Yiyecekleri atmak'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi çocukların temel haklarındandır?', options: ['Kuralları çiğneme', 'Eğitim hakkı', 'Çevreyi kirletme', 'Başkalarına zarar verme'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'TBMM hangi tarihte açılmıştır?', options: ['29 Ekim 1923', '19 Mayıs 1919', '23 Nisan 1920', '30 Ağustos 1922'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: "Mustafa Kemal Atatürk Samsun'a hangi tarihte çıkmıştır?", options: ['29 Ekim 1923', '30 Ağustos 1922', '23 Nisan 1920', '19 Mayıs 1919'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: "Türkiye'nin en büyük gölü hangisidir?", options: ['Van Gölü', 'Tuz Gölü', 'Beyşehir Gölü', 'İznik Gölü'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: "Türkiye'nin güneyinde hangi deniz vardır?", options: ['Marmara Denizi', 'Akdeniz', 'Karadeniz', 'Hazar Denizi'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi şehir Karadeniz kıyısındadır?', options: ['Kayseri', 'Ankara', 'Trabzon', 'Konya'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi ürün Rize ile özdeşleşmiştir?', options: ['Zeytin', 'Antep fıstığı', 'Pamuk', 'Çay'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: 'Haritalarda yükseltiyi göstermek için hangi yöntem kullanılabilir?', options: ['Renklendirme', 'Noktalama', 'Alfabetik sıralama', 'Heceleme'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi meslek tarihi kalıntıları inceler?', options: ['Pilot', 'Arkeolog', 'Terzi', 'Eczacı'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi doğal kaynak örneğidir?', options: ['Bilgisayar', 'Plastik şişe', 'Su', 'Otomobil'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi beşerî unsur örneğidir?', options: ['Göl', 'Dağ', 'Akarsu', 'Köprü'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi demokrasiyle uyumludur?', options: ['Seçimlere katılmak', 'Oyları zorla almak', 'Farklı görüşleri yasaklamak', 'Hakları engellemek'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi kurum yasama yetkisini kullanır?', options: ['Üniversite', 'TBMM', 'Hastane', 'Postane'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Malazgirt Savaşı hangi yılda gerçekleşmiştir?', options: ['1299', '1923', '1071', '1453'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: 'İstanbul hangi yılda fethedilmiştir?', options: ['1789', '1071', '1920', '1453'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: "İstanbul'u fetheden Osmanlı padişahı kimdir?", options: ['Fatih Sultan Mehmet', 'Kanuni Sultan Süleyman', 'Yavuz Sultan Selim', 'Osman Gazi'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: "Hangi anlaşma Türkiye Cumhuriyeti'nin uluslararası tanınmasında önemlidir?", options: ['Zitvatorok Antlaşması', 'Lozan Antlaşması', 'Pasarofça Antlaşması', 'Karlofça Antlaşması'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: "Türkiye'nin en uzun, tamamı ülke sınırları içindeki akarsuyu hangisidir?", options: ['Dicle', 'Meriç', 'Kızılırmak', 'Fırat'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: "Hangi bölge Türkiye'de çay üretimiyle öne çıkar?", options: ['İç Anadolu', 'Güneydoğu Anadolu', 'Marmara', 'Karadeniz'], correct: 3 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi uygarlık yazıyı icat etmesiyle bilinir?', options: ['Sümerler', 'Hititler', 'Frigler', 'Urartular'], correct: 0 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi kültürel mirasa örnektir?', options: ['Boş kutu', 'Tarihi cami', 'Günlük alışveriş fişi', 'Yeni plastik şişe'], correct: 1 },
+  { category: 'Sosyal Bilgiler', question: 'Hangi ekonomik faaliyet hayvan yetiştiriciliğini kapsar?', options: ['Ulaşım', 'Madencilik', 'Hayvancılık', 'Turizm'], correct: 2 },
+  { category: 'Sosyal Bilgiler', question: 'Hangisi iklimin insan yaşamına etkisine örnektir?', options: ['Telefon numarası seçimi', 'Sınıfın numaralandırılması', 'Kitapların alfabetik dizilmesi', 'Soğuk bölgelerde kalın giysi kullanılması'], correct: 3 }
 ];

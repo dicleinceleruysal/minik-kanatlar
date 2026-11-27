@@ -23,10 +23,13 @@ export class GameEngine {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.96;
 
-    // Subtle rim light to make modern 3D aircraft contours pop without heavy env maps
+    // Subtle rim light to make modern 3D aircraft contours pop
     this.rimLight = new THREE.DirectionalLight(0x90e0ef, 0.85);
     this.rimLight.position.set(-18, 12, 22);
     this.scene.add(this.rimLight);
+
+    // Lightweight sky IBL applied ONLY to aircraft materials (never alters biome colors)
+    this.planeEnvMap = this._createPlaneEnvironmentMap();
 
     this.skyEnv = new SkyEnvironment(this.scene);
 
@@ -61,6 +64,7 @@ export class GameEngine {
       right: false,
       boost: false
     };
+    this.touchInput = { x: 0, y: 0, boost: false };
 
     this.clock = new THREE.Clock();
     this.elapsed = 0;
@@ -101,22 +105,50 @@ export class GameEngine {
     });
   }
 
+  _createPlaneEnvironmentMap() {
+    // Tiny 256x128 procedural sky-horizon-ground equirectangular map for crisp aircraft reflections (<5ms)
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+
+    const grad = ctx.createLinearGradient(0, 0, 0, 128);
+    grad.addColorStop(0.0, '#1d4ed8');
+    grad.addColorStop(0.32, '#60a5fa');
+    grad.addColorStop(0.49, '#e0f2fe');
+    grad.addColorStop(0.52, '#fef9c3');
+    grad.addColorStop(0.58, '#475569');
+    grad.addColorStop(1.0, '#1e293b');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 128);
+
+    // Soft bright sun reflection disc
+    const sunGrad = ctx.createRadialGradient(185, 36, 2, 185, 36, 26);
+    sunGrad.addColorStop(0, 'rgba(255,255,245,1)');
+    sunGrad.addColorStop(0.35, 'rgba(255,245,210,0.65)');
+    sunGrad.addColorStop(1, 'rgba(255,245,210,0)');
+    ctx.fillStyle = sunGrad;
+    ctx.fillRect(150, 8, 70, 56);
+
+    const envTex = new THREE.CanvasTexture(canvas);
+    envTex.mapping = THREE.EquirectangularReflectionMapping;
+    envTex.colorSpace = THREE.SRGBColorSpace;
+
+    const pmrem = new THREE.PMREMGenerator(this.renderer);
+    pmrem.compileEquirectangularShader();
+    const pmremTex = pmrem.fromEquirectangular(envTex).texture;
+    envTex.dispose();
+    pmrem.dispose();
+    return pmremTex;
+  }
+
   setPlane(planeConfig) {
     this.planeConfig = planeConfig;
     if (this.planeMesh) {
       this.scene.remove(this.planeMesh);
-      this.planeMesh.traverse((obj) => {
-        if (obj.isMesh) {
-          obj.geometry?.dispose();
-          if (Array.isArray(obj.material)) {
-            obj.material.forEach((m) => m.dispose());
-          } else {
-            obj.material?.dispose();
-          }
-        }
-      });
+      this._disposeObject(this.planeMesh);
     }
-    this.planeMesh = createPlaneMesh(planeConfig);
+    this.planeMesh = createPlaneMesh(planeConfig, this.planeEnvMap);
     this.planeMesh.position.copy(this.planePos);
     this.scene.add(this.planeMesh);
   }
@@ -164,9 +196,21 @@ export class GameEngine {
     this.keys.boost = false;
   }
 
+  setTouchInput(x, y) {
+    this.touchInput.x = THREE.MathUtils.clamp(x, -1, 1);
+    this.touchInput.y = THREE.MathUtils.clamp(y, -1, 1);
+  }
+
+  setTouchBoost(active) {
+    this.touchInput.boost = !!active;
+  }
+
   pauseForQuiz() {
     this.mode = 'quiz';
     this.keys.up = this.keys.down = this.keys.left = this.keys.right = this.keys.boost = false;
+    this.touchInput.x = 0;
+    this.touchInput.y = 0;
+    this.touchInput.boost = false;
   }
 
   resumeAfterQuiz(isCorrect) {
@@ -183,10 +227,28 @@ export class GameEngine {
     this.mode = 'playing';
   }
 
+  _disposeObject(obj) {
+    obj.traverse?.((child) => {
+      if (child.isMesh) {
+        child.geometry?.dispose();
+        if (Array.isArray(child.material)) child.material.forEach((m) => m.dispose());
+        else child.material?.dispose();
+      } else if (child.isSprite) {
+        child.material?.dispose();
+      }
+    });
+  }
+
   _clearEntities() {
-    for (const o of this.obstacles) this.scene.remove(o);
+    for (const o of this.obstacles) {
+      this.scene.remove(o);
+      this._disposeObject(o);
+    }
     for (const s of this.stars) this.scene.remove(s);
-    for (const b of this.bursts) this.scene.remove(b.mesh);
+    for (const b of this.bursts) {
+      this.scene.remove(b.mesh);
+      b.mesh.material?.dispose();
+    }
     this.obstacles = [];
     this.stars = [];
     this.bursts = [];
@@ -199,7 +261,15 @@ export class GameEngine {
 
     // Bias ~35% of obstacles somewhat toward the player's corridor so dodging is engaging
     let x, y;
-    if (Math.random() < 0.35) {
+    if (obs.userData.isPillar) {
+      // Canyon rock pillar rises from floor; top reaches lower-to-upper flight altitude
+      x = (Math.random() * 2 - 1) * (this.bounds.x - 1.5);
+      y = -4.5 + Math.random() * 10.5;
+    } else if (obs.userData.driftDir) {
+      // Cross-gliding paragliders enter from left or right and glide across the sky
+      x = -obs.userData.driftDir * (this.bounds.x + 8 + Math.random() * 12);
+      y = this.bounds.yMin + 2.5 + Math.random() * (this.bounds.yMax - this.bounds.yMin - 4);
+    } else if (Math.random() < 0.35) {
       x = THREE.MathUtils.clamp(this.planePos.x + (Math.random() - 0.5) * 9, -this.bounds.x + 1, this.bounds.x - 1);
       y = THREE.MathUtils.clamp(this.planePos.y + (Math.random() - 0.5) * 7, this.bounds.yMin + 1.5, this.bounds.yMax - 1.5);
     } else {
@@ -233,8 +303,9 @@ export class GameEngine {
     const plane = this.planeConfig;
     const level = this.levelConfig;
 
-    // Boost logic
-    if (this.keys.boost && this.boostEnergy > 8) {
+    // Boost logic (keyboard Space or mobile Touch Boost)
+    const boostPressed = this.keys.boost || this.touchInput.boost;
+    if (boostPressed && this.boostEnergy > 8) {
       if (!this.isBoosting) {
         this.callbacks.onBoostStart?.();
       }
@@ -249,9 +320,11 @@ export class GameEngine {
     const forwardSpeed = level.baseSpeed * (0.85 + plane.speed * 0.22) * boostMult;
     const boostFactor = this.isBoosting ? 1 : 0;
 
-    // Input movement
-    const inputX = (this.keys.right ? 1 : 0) - (this.keys.left ? 1 : 0);
-    const inputY = (this.keys.up ? 1 : 0) - (this.keys.down ? 1 : 0);
+    // Input movement (keyboard + analog mobile joystick)
+    const keyX = (this.keys.right ? 1 : 0) - (this.keys.left ? 1 : 0);
+    const keyY = (this.keys.up ? 1 : 0) - (this.keys.down ? 1 : 0);
+    const inputX = THREE.MathUtils.clamp(keyX + this.touchInput.x, -1, 1);
+    const inputY = THREE.MathUtils.clamp(keyY + this.touchInput.y, -1, 1);
 
     const maxLatSpeed = 20 * plane.maneuver;
     const accel = 9.5 * plane.maneuver;
@@ -362,6 +435,22 @@ export class GameEngine {
         o.rotation.z += dt * o.userData.spinSpeed;
         o.rotation.y += dt * o.userData.spinSpeed * 0.5;
       }
+      if (o.userData.wings) {
+        const flap = Math.sin(this.elapsed * 7.5 + o.userData.phase) * 0.42;
+        for (const w of o.userData.wings) {
+          w.rotation.z = w.userData.side * flap;
+        }
+      }
+      if (o.userData.rotor) {
+        o.userData.rotor.rotation.z -= dt * 2.4;
+      }
+      if (o.userData.topRotor) {
+        o.userData.topRotor.rotation.y += dt * (o.userData.topRotorSpeed || 18);
+      }
+      if (o.userData.driftDir) {
+        o.position.x += o.userData.driftDir * o.userData.driftSpeed * dt;
+        o.rotation.z = Math.sin(this.elapsed * 1.9 + o.userData.phase) * (o.userData.swayAmp || 0.08);
+      }
 
       // Collision check
       if (this.invulnTimer <= 0 && !o.userData.hit) {
@@ -369,7 +458,14 @@ export class GameEngine {
         const dy = o.position.y - this.planePos.y;
         const dz = o.position.z - this.planePos.z;
         const hitDist = o.userData.collisionRadius + 1.35;
-        if (dx * dx + dy * dy + dz * dz < hitDist * hitDist) {
+        let collided = false;
+        if (o.userData.isPillar) {
+          // Vertical cylinder collision from canyon floor up to pillar cap
+          collided = dx * dx + dz * dz < hitDist * hitDist && this.planePos.y < o.position.y + 1.5;
+        } else {
+          collided = dx * dx + dy * dy + dz * dz < hitDist * hitDist;
+        }
+        if (collided) {
           o.userData.hit = true;
           this.shakeTimer = 0.45;
           spawnCollectBurst(this.scene, o.position, this.bursts, 0xff4d6d);
@@ -383,6 +479,7 @@ export class GameEngine {
 
       if (o.position.z > 24) {
         this.scene.remove(o);
+        this._disposeObject(o);
         this.obstacles.splice(i, 1);
       }
     }

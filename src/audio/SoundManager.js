@@ -48,8 +48,9 @@ export class SoundManager {
   }
 
   playHit() {
-    this.playTone(170, 0.28, 'sawtooth', 0.16, 0, 55);
-    this.playTone(95, 0.32, 'square', 0.1, 0.03, 38);
+    // Soft percussive bump when colliding with an obstacle (warm thump, no harsh buzz)
+    this.playTone(185, 0.16, 'triangle', 0.16, 0, 72);
+    this.playTone(110, 0.2, 'sine', 0.14, 0.02, 52);
   }
 
   playCorrect() {
@@ -59,8 +60,11 @@ export class SoundManager {
   }
 
   playWrong() {
-    this.playTone(300, 0.18, 'sawtooth', 0.12, 0, 210);
-    this.playTone(210, 0.28, 'sawtooth', 0.12, 0.15, 130);
+    // Clean, playful double-tap wooden marimba "bop-bop" (clear mistake cue, kid-friendly)
+    this.playTone(329.63, 0.11, 'sine', 0.14, 0);
+    this.playTone(659.25, 0.05, 'triangle', 0.04, 0);
+    this.playTone(246.94, 0.19, 'sine', 0.15, 0.12);
+    this.playTone(493.88, 0.06, 'triangle', 0.04, 0.12);
   }
 
   playUpgrade() {

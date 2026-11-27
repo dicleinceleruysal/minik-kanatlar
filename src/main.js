@@ -52,7 +52,7 @@ let selectedLevelId = state.highestUnlockedLevel;
 let inspectedPlaneId = state.selectedPlaneId;
 let currentLives = MAX_LIVES;
 let currentLevelStars = 0;
-let askedQuestionIndices = new Set();
+let questionDeck = [];
 let quizTimerInterval = null;
 let quizAnswered = false;
 
@@ -71,8 +71,6 @@ const hudSpeed = document.getElementById('hud-speed');
 const hudBoostFill = document.getElementById('hud-boost-fill');
 
 const menuScreen = document.getElementById('menu-screen');
-const menuTotalStars = document.getElementById('menu-total-stars');
-const menuActivePlanePill = document.getElementById('menu-active-plane-pill');
 const levelGrid = document.getElementById('level-grid');
 
 const hangarScreen = document.getElementById('hangar-screen');
@@ -89,7 +87,6 @@ const statPower = document.getElementById('stat-power');
 const btnPlaneAction = document.getElementById('btn-plane-action');
 
 const quizModal = document.getElementById('quiz-modal');
-const quizCategory = document.getElementById('quiz-category');
 const quizQuestion = document.getElementById('quiz-question');
 const quizOptions = document.getElementById('quiz-options');
 const quizFeedback = document.getElementById('quiz-feedback');
@@ -163,16 +160,13 @@ function renderLives() {
 }
 
 function renderMenu() {
-  menuTotalStars.textContent = String(state.totalStars);
-  const activePlane = getPlaneById(state.selectedPlaneId);
-  menuActivePlanePill.textContent = `✈️ Seviye ${activePlane.level}: ${activePlane.name}`;
-
+  const levelEmojis = { 1: '🏝️', 2: '🏜️', 3: '❄️', 4: '🌋', 5: '🌌' };
   levelGrid.innerHTML = '';
   for (const lvl of LEVELS) {
     const unlocked = lvl.id <= state.highestUnlockedLevel;
     const completed = state.completedLevels.includes(lvl.id);
     const btn = document.createElement('button');
-    btn.className = 'level-card';
+    btn.className = `level-card theme-${lvl.id}`;
     if (!unlocked) btn.classList.add('locked');
     if (lvl.id === selectedLevelId) btn.classList.add('selected');
     btn.disabled = !unlocked;
@@ -180,9 +174,10 @@ function renderMenu() {
     const statusIcon = !unlocked ? '🔒' : completed ? '✅' : '⭐';
     btn.innerHTML = `
       <span class="level-status">${statusIcon}</span>
+      <span class="level-emoji">${levelEmojis[lvl.id] || '✈️'}</span>
       <span class="level-num">Seviye ${lvl.id}</span>
       <span class="level-name">${lvl.name}</span>
-      <span class="level-meta">${lvl.distanceGoal} m • +${lvl.completionBonus} ⭐ bonus</span>
+      <span class="level-meta">+${lvl.completionBonus} ⭐ ödül</span>
     `;
     btn.addEventListener('click', () => {
       if (!unlocked) return;
@@ -374,16 +369,20 @@ function togglePause() {
 }
 
 // ==================== OBSTACLE QUIZ SYSTEM ====================
-function pickQuestion() {
-  if (askedQuestionIndices.size >= QUESTIONS.length) {
-    askedQuestionIndices.clear();
+function refillQuestionDeck() {
+  questionDeck = QUESTIONS.map((_, i) => i);
+  // Fisher-Yates shuffle so all 160 questions come in completely random order
+  for (let i = questionDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questionDeck[i], questionDeck[j]] = [questionDeck[j], questionDeck[i]];
   }
-  let idx;
-  do {
-    idx = Math.floor(Math.random() * QUESTIONS.length);
-  } while (askedQuestionIndices.has(idx));
-  askedQuestionIndices.add(idx);
-  return QUESTIONS[idx];
+}
+
+function pickQuestion() {
+  if (questionDeck.length === 0) {
+    refillQuestionDeck();
+  }
+  return QUESTIONS[questionDeck.pop()];
 }
 
 function clearQuizTimer() {
@@ -396,7 +395,6 @@ function clearQuizTimer() {
 function openQuizModal() {
   const q = pickQuestion();
   quizAnswered = false;
-  quizCategory.textContent = q.category;
   quizQuestion.textContent = q.question;
   quizFeedback.className = 'quiz-feedback hidden';
   quizFeedback.textContent = '';
@@ -529,11 +527,105 @@ function updateMuteButtons() {
   btnMenuMute.textContent = muted ? '🔇 Ses Kapalı' : '🔊 Ses Açık';
 }
 
+// ==================== MOBILE TOUCH CONTROLS & LANDSCAPE SUPPORT ====================
+const joystickZone = document.getElementById('touch-joystick');
+const joystickKnob = document.getElementById('joystick-knob');
+const btnTouchBoost = document.getElementById('btn-touch-boost');
+
+let activeJoystickPointerId = null;
+let joystickOrigin = { x: 0, y: 0 };
+const MAX_JOY_DIST = 44;
+
+function resetJoystick() {
+  activeJoystickPointerId = null;
+  if (joystickKnob) joystickKnob.style.transform = 'translate(0px, 0px)';
+  engine.setTouchInput(0, 0);
+}
+
+if (joystickZone && joystickKnob) {
+  joystickZone.addEventListener('pointerdown', (e) => {
+    if (activeJoystickPointerId !== null) return;
+    e.preventDefault();
+    activeJoystickPointerId = e.pointerId;
+    joystickZone.setPointerCapture(e.pointerId);
+    const rect = joystickZone.getBoundingClientRect();
+    joystickOrigin = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    };
+    const dx = e.clientX - joystickOrigin.x;
+    const dy = e.clientY - joystickOrigin.y;
+    const dist = Math.min(MAX_JOY_DIST, Math.hypot(dx, dy));
+    const ang = Math.atan2(dy, dx);
+    const ox = Math.cos(ang) * dist;
+    const oy = Math.sin(ang) * dist;
+    joystickKnob.style.transform = `translate(${ox}px, ${oy}px)`;
+    engine.setTouchInput(ox / MAX_JOY_DIST, -oy / MAX_JOY_DIST);
+  });
+
+  joystickZone.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activeJoystickPointerId) return;
+    e.preventDefault();
+    const dx = e.clientX - joystickOrigin.x;
+    const dy = e.clientY - joystickOrigin.y;
+    const dist = Math.min(MAX_JOY_DIST, Math.hypot(dx, dy));
+    const ang = Math.atan2(dy, dx);
+    const ox = Math.cos(ang) * dist;
+    const oy = Math.sin(ang) * dist;
+    joystickKnob.style.transform = `translate(${ox}px, ${oy}px)`;
+    engine.setTouchInput(ox / MAX_JOY_DIST, -oy / MAX_JOY_DIST);
+  });
+
+  const endJoy = (e) => {
+    if (e.pointerId !== activeJoystickPointerId) return;
+    resetJoystick();
+  };
+  joystickZone.addEventListener('pointerup', endJoy);
+  joystickZone.addEventListener('pointercancel', endJoy);
+}
+
+if (btnTouchBoost) {
+  btnTouchBoost.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    btnTouchBoost.classList.add('active');
+    engine.setTouchBoost(true);
+  });
+  const endBoost = () => {
+    btnTouchBoost.classList.remove('active');
+    engine.setTouchBoost(false);
+  };
+  btnTouchBoost.addEventListener('pointerup', endBoost);
+  btnTouchBoost.addEventListener('pointercancel', endBoost);
+  btnTouchBoost.addEventListener('pointerleave', endBoost);
+}
+
+// Auto-pause if a mobile device is rotated to portrait mid-flight
+function handleOrientationCheck() {
+  const isTouchPortrait =
+    window.matchMedia('(pointer: coarse)').matches && window.innerHeight > window.innerWidth;
+  if (isTouchPortrait && engine.mode === 'playing') {
+    resetJoystick();
+    engine.setTouchBoost(false);
+    togglePause();
+  }
+}
+window.addEventListener('resize', handleOrientationCheck);
+window.addEventListener('orientationchange', handleOrientationCheck);
+
+// Try locking to landscape on supported mobile browsers when flight starts
+function tryLockLandscape() {
+  if (window.matchMedia('(pointer: coarse)').matches && screen.orientation?.lock) {
+    screen.orientation.lock('landscape').catch(() => {});
+  }
+}
+
 // ==================== BUTTON LISTENERS ====================
-document.getElementById('btn-start-flight').addEventListener('click', () => startFlight(selectedLevelId));
+document.getElementById('btn-start-flight').addEventListener('click', () => {
+  tryLockLandscape();
+  startFlight(selectedLevelId);
+});
 document.getElementById('btn-open-hangar').addEventListener('click', showHangar);
 document.getElementById('btn-close-hangar').addEventListener('click', showMenu);
-document.getElementById('btn-hangar-fly').addEventListener('click', () => startFlight(selectedLevelId));
 btnPlaneAction.addEventListener('click', handlePlaneActionClick);
 
 document.getElementById('btn-pause').addEventListener('click', togglePause);
@@ -561,6 +653,37 @@ btnMenuMute.addEventListener('click', () => {
   updateMuteButtons();
 });
 
-// Boot
+// Boot & Smooth Airplane Preloader
+const preloaderEl = document.getElementById('preloader');
+const preloaderBar = document.getElementById('preloader-bar');
+const preloaderStatus = document.getElementById('preloader-status');
+
+function setPreloaderProgress(pct, text) {
+  if (preloaderBar) preloaderBar.style.width = `${pct}%`;
+  if (preloaderStatus && text) preloaderStatus.textContent = text;
+}
+
+const bootStart = performance.now();
+setPreloaderProgress(42, 'Gökyüzü hazırlanıyor...');
+
 updateMuteButtons();
 showMenu();
+
+setPreloaderProgress(82, 'Uçaklar hangardan çıkıyor...');
+
+const fontsReady = document.fonts?.ready
+  ? Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 850))])
+  : Promise.resolve();
+
+fontsReady.then(() => {
+  const elapsed = performance.now() - bootStart;
+  const remaining = Math.max(0, 750 - elapsed);
+  setTimeout(() => {
+    setPreloaderProgress(100, 'Kalkışa hazır!');
+    setTimeout(() => {
+      if (!preloaderEl) return;
+      preloaderEl.classList.add('hidden');
+      setTimeout(() => preloaderEl.remove(), 480);
+    }, 220);
+  }, remaining);
+});
