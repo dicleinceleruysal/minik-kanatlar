@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="planeBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#dbeafe" />
+    </linearGradient>
+    <linearGradient id="wingRed" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff595e" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+    <linearGradient id="goldStar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded 3D Sky Badge -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sky)" stroke="#ffffff" stroke-width="3" />
+  <!-- Top Glossy Highlight -->
+  <rect x="7" y="6" width="50" height="16" rx="8" fill="#ffffff" opacity="0.22" />
+
+  <!-- Soft Cloud -->
+  <g fill="#ffffff" opacity="0.88">
+    <circle cx="17" cy="48" r="6" />
+    <circle cx="24" cy="46" r="7.5" />
+    <circle cx="32" cy="49" r="5.5" />
+  </g>
+
+  <!-- Golden Star -->
+  <path
+    d="M17 14 l2.1 4.2 4.6.7 -3.3 3.2 .8 4.6 -4.2-2.2 -4.2 2.2 .8-4.6 -3.3-3.2 4.6-.7z"
+    fill="url(#goldStar)"
+    stroke="#ffffff"
+    stroke-width="1.2"
+    stroke-linejoin="round"
+  />
+
+  <!-- Cute 3D Toy Airplane soaring up-right -->
+  <g transform="translate(35 34) rotate(-32)">
+    <!-- Back Wing -->
+    <path d="M-4 -14 L6 -3 L-6 -2 Z" fill="url(#wingRed)" />
+    <!-- Tail Fin -->
+    <path d="M-20 -2 L-14 -12 L-8 -2 Z" fill="url(#wingRed)" />
+    <!-- Fuselage -->
+    <ellipse cx="0" cy="0" rx="19" ry="7.5" fill="url(#planeBody)" stroke="#0369a1" stroke-width="1.6" />
+    <!-- Cockpit -->
+    <path d="M2 -5 Q10 -6 13 -1 L2 -1 Z" fill="#0ea5e9" />
+    <!-- Front Wing -->
+    <path d="M-6 2 L8 2 L2 15 L-9 13 Z" fill="url(#wingRed)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round" />
+    <!-- Nose Spinner & Propeller -->
+    <ellipse cx="19" cy="0" rx="2.6" ry="3.4" fill="#facc15" />
+    <rect x="20.5" y="-9" width="2.2" height="18" rx="1.1" fill="#ffffff" opacity="0.9" />
+  </g>
+</svg>
